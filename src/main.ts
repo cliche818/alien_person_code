@@ -1,24 +1,25 @@
 /* tslint:disable:no-console */
-import inquirer, { Question } from "inquirer";
+import readline from "readline";
 
-async function getCommand() {
-  const enterCommand: Question = {
-    name: "command",
-    message: "Enter a command",
-    validate(input: string) {
-      return ["A", "X"].indexOf(input) >= 0;
-    },
-  };
-  const { command } = await inquirer.prompt([enterCommand]);
-  return command;
+readline.emitKeypressEvents(process.stdin);
+
+// @ts-ignore
+process.stdin.setRawMode(true);
+
+let alien = "A";
+
+function display() {
+  return `-----${alien}-----`;
 }
 
-async function main() {
-  let command = "";
-  while (command !== "X") {
-    command = await getCommand();
-    console.log(command);
+process.stdin.on("keypress", (str, key) => {
+  if (key.ctrl && key.name === "c") {
+    process.exit();
+  } else {
+    alien = str;
+    console.log(display());
   }
-}
+});
 
-main();
+console.log("Press any key...");
+console.log(display());
