@@ -1,33 +1,17 @@
-const readline = require('readline');
-const Person = require('./person');
-const Alien = require('./alien');
+const Character = require('./character');
+const display = require('./display')
 
-// execute project with node src/index.js
+const commands1 = {
+  'a': 'a',
+  'A': 'B'
+}
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
+const commands2 = {
+  'p': 'P',
+  'P': 'p'
+}
 
-console.log(Person)
+let character1 = new Character('A', commands1);
+let character2 = new Character('P', commands2);
 
-var person = new Person('p');
-var alien = new Alien('a');
-
-rl.setPrompt('What is the command? Press a letter key: ');
-rl.prompt();
-
-rl.on('line', function(line) {
-  switch(line.trim()) {
-    default:
-      let command = line.trim();
-      person.performCommand(command);
-      alien.performCommand(command);
-      console.log(`${person.output_value()}            ${alien.output_value()}`);
-      break;
-  }
-  rl.prompt();
-}).on('close', function() {
-  console.log('Have a great day!');
-  process.exit(0);
-});
+display(character1, character2)
