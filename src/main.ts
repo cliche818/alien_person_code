@@ -2,30 +2,33 @@
 import readline from "readline";
 import Command from "./Command";
 import Character from "./Character";
+import Game from "./Game";
 
 readline.emitKeypressEvents(process.stdin);
 
 // @ts-ignore
 process.stdin.setRawMode(true);
 
-let alien_command = new Command();
-alien_command.addNewCommand('a', 'A');
-alien_command.addNewCommand('A', 'a');
+const alienCommand = new Command();
+alienCommand.addNewCommand("a", "A");
+alienCommand.addNewCommand("A", "a");
 
-let alien = new Character('a');
+const alien = new Character("a");
 
-function display() {
-  return `-----${alien.value}-----`;
-}
+const personCommand = new Command();
+personCommand.addNewCommand("p", "P");
+personCommand.addNewCommand("P", "p");
+
+const person = new Character("p");
+
+const game = new Game(alien, person, alienCommand, personCommand);
 
 process.stdin.on("keypress", (str, key) => {
   if (key.ctrl && key.name === "c") {
     process.exit();
   } else {
-    alien_command.setCommandValue(str, alien);
-    console.log(display());
+    game.run(str);
   }
 });
 
 console.log("Press any key...");
-console.log(display());
