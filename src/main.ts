@@ -23,11 +23,22 @@ const person = new Character("p");
 
 const game = new Game(alien, person, alienCommand, personCommand);
 
+let isDelayed = true;
+
 process.stdin.on("keypress", (str, key) => {
   if (key.ctrl && key.name === "c") {
     process.exit();
   } else {
-    game.run(str);
+    if (isDelayed) {
+      const initialDelay = setTimeout(() => {
+        game.run(str);
+
+        clearTimeout(initialDelay);
+        isDelayed = false;
+      }, 5000);
+    } else {
+      game.run(str);
+    }
   }
 });
 
