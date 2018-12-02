@@ -1,26 +1,45 @@
 {
-  "name": "javascript-tdd-starter",
+  "name": "alien_person",
   "version": "1.0.0",
-  "description": "A starter repository for test-driving JavaScript code",
-  "main": "index.js",
+  "description": "A project for learning about reactive programming",
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn run lint-staged",
+      "post-commit": "git update-index --again"
+    }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "tslint --format stylish --fix",
+      "prettier --write",
+      "git add",
+      "jest --findRelatedTests"
+    ]
+  },
   "scripts": {
-    "test": "./node_modules/.bin/mocha"
+    "start": "ts-node src/main",
+    "test": "jest",
+    "test:watch": "jest --watch --notify",
+    "lint": "tslint --project . --format stylish"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sourceallies/javascript-tdd-starter.git"
+    "url": "git+https://github.com/47colborne/alient_person_code.git"
   },
-  "author": "Source Allies",
+  "author": "47 Colborne",
   "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/sourceallies/javascript-tdd-starter/issues"
-  },
-  "homepage": "https://github.com/sourceallies/javascript-tdd-starter#readme",
   "devDependencies": {
-    "babel-preset-es2015": "^6.13.2",
-    "babel-register": "^6.11.6",
-    "chai": "^3.5.0",
-    "chance": "^1.0.4",
-    "mocha": "^3.0.2"
-  }
+    "@types/jest": "^23.3.9",
+    "@types/node": "^10.12.10",
+    "husky": "^1.2.0",
+    "jest": "^23.6.0",
+    "lint-staged": "^8.1.0",
+    "prettier": "^1.15.2",
+    "ts-jest": "^23.10.5",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.16.0",
+    "typescript": "^3.1.6"
+  },
+  "dependencies": {}
 }
