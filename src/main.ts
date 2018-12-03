@@ -3,12 +3,10 @@ import readline from "readline";
 import Command from "./Command";
 import Character from "./Character";
 import Game from "./Game";
+import MessageBus from "./events/MessageBus";
+import Event from "./events/Event";
 
-readline.emitKeypressEvents(process.stdin);
-
-// @ts-ignore
-process.stdin.setRawMode(true);
-
+// config
 const alienCommand = new Command();
 alienCommand.addNewCommand("a", "A");
 alienCommand.addNewCommand("A", "a");
@@ -23,22 +21,19 @@ const person = new Character("p");
 
 const game = new Game(alien, person, alienCommand, personCommand);
 
-let isDelayed = true;
+const messageBus = new MessageBus();
+messageBus.addSubscriber(game);
 
+// console input
+readline.emitKeypressEvents(process.stdin);
+// @ts-ignore
+process.stdin.setRawMode(true);
 process.stdin.on("keypress", (str, key) => {
   if (key.ctrl && key.name === "c") {
     process.exit();
   } else {
-    if (isDelayed) {
-      const initialDelay = setTimeout(() => {
-        game.run(str);
-
-        clearTimeout(initialDelay);
-        isDelayed = false;
-      }, 5000);
-    } else {
-      game.run(str);
-    }
+    const event = new Event(str);
+    messageBus.publish(event);
   }
 });
 
