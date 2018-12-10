@@ -19,9 +19,9 @@ personCommand.addNewCommand("P", "p");
 
 const person = new Character("p");
 
-const game = new Game(alien, person, alienCommand, personCommand);
-
 const messageBus = new MessageBus();
+const game = new Game(alien, person, alienCommand, personCommand, messageBus);
+
 messageBus.addSubscriber(game);
 
 // console input
@@ -33,7 +33,9 @@ process.stdin.on("keypress", (str, key) => {
     process.exit();
   } else {
     const event = new Event(str);
-    messageBus.publish(event);
+    console.log(`((((Main Received: ${str})))))`);
+    // messageBus.publish(event);
+    messageBus.bufferEvent(event);
   }
 });
 
