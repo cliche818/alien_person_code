@@ -28,5 +28,7 @@ export default class MessageBus {
     this.eventBufferList.forEach((event: Event) => {
       this.publish(event);
     });
+
+    this.eventBufferList = [];
   }
 }

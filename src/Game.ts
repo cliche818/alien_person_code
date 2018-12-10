@@ -25,7 +25,7 @@ export default class Game {
     this.commandB = commandB;
     this.messageBus = messageBus;
 
-    setTimeout(() => this.poll(), 2000);
+    setInterval(() => this.poll(), 2000);
   }
 
   public display = (character: Character): void => {
