@@ -25,16 +25,24 @@ export default class Game {
     this.commandB = commandB;
     this.messageBus = messageBus;
 
-    setInterval(() => this.poll(), 2000);
+    setInterval(() => {
+      this.pollOne();
+    }, 2000);
   }
 
   public display = (character: Character): void => {
-    this.sleep(2000);
-    console.log(`-----${character.value}-----`);
+    setTimeout(() => {
+      console.log(`-----${character.value}-----`);
+      console.log(new Date().getTime());
+    }, 2000);
   };
 
   public poll(): void {
     this.messageBus.flushBufferedEvents();
+  }
+
+  public pollOne(): void {
+    this.messageBus.flushOneBufferedEvent();
   }
 
   public run(str: string): void {

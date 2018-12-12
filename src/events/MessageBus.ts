@@ -31,4 +31,11 @@ export default class MessageBus {
 
     this.eventBufferList = [];
   }
+
+  public flushOneBufferedEvent(): void {
+    const event = this.eventBufferList.pop();
+    if (event) {
+      this.publish(event);
+    }
+  }
 }
