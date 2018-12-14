@@ -21,7 +21,14 @@ export default class MessageBus {
   }
 
   public bufferEvent(event: Event): void {
-    this.eventBufferList.push(event);
+    if (event.value === "c") {
+      this.clearBufferedEvents();
+      this.subscriberList.forEach((subscriber: Game) => {
+        subscriber.cancelCurrentEvent();
+      });
+    } else {
+      this.eventBufferList.push(event);
+    }
   }
 
   public flushBufferedEvents(): void {
@@ -29,6 +36,10 @@ export default class MessageBus {
       this.publish(event);
     });
 
+    this.eventBufferList = [];
+  }
+
+  public clearBufferedEvents(): void {
     this.eventBufferList = [];
   }
 

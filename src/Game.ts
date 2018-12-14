@@ -12,6 +12,8 @@ export default class Game {
 
   private messageBus: MessageBus;
 
+  private runningEventIds: any;
+
   constructor(
     characterA: Character,
     characterB: Character,
@@ -24,6 +26,9 @@ export default class Game {
     this.commandA = commandA;
     this.commandB = commandB;
     this.messageBus = messageBus;
+    this.runningEventIds = {};
+    this.runningEventIds[this.characterA.name] = null;
+    this.runningEventIds[this.characterB.name] = null;
 
     setInterval(() => {
       this.pollOne();
@@ -31,9 +36,10 @@ export default class Game {
   }
 
   public display = (character: Character): void => {
-    setTimeout(() => {
+    this.runningEventIds[character.name] = setTimeout(() => {
       console.log(`-----${character.value}-----`);
       console.log(new Date().getTime());
+      this.runningEventIds[character.name] = null;
     }, 2000);
   };
 
@@ -51,6 +57,14 @@ export default class Game {
 
     this.display(this.characterA);
     this.display(this.characterB);
+  }
+
+  public cancelCurrentEvent(): void {
+    Object.keys(this.runningEventIds).forEach(name => {
+      if (this.runningEventIds[name]) {
+        clearTimeout(this.runningEventIds[name]);
+      }
+    });
   }
 
   private sleep = (ms: number): void => {

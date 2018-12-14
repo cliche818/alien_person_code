@@ -11,13 +11,13 @@ const alienCommand = new Command();
 alienCommand.addNewCommand("a", "A");
 alienCommand.addNewCommand("A", "a");
 
-const alien = new Character("a");
+const alien = new Character("a", "characterA");
 
 const personCommand = new Command();
 personCommand.addNewCommand("p", "P");
 personCommand.addNewCommand("P", "p");
 
-const person = new Character("p");
+const person = new Character("p", "characterB");
 
 const messageBus = new MessageBus();
 const game = new Game(alien, person, alienCommand, personCommand, messageBus);
